@@ -1,0 +1,20 @@
+version: '3.6'
+services:
+  # API esrver
+  dialogue-api:
+    container_name: dialogue-api
+    environment:
+      TZ: "Asia/Tokyo"
+      ENV: production
+      GOOGLE_APPLICATION_CREDENTIALS: /app/restaurant-chatbot-252908-2981cc9b5b05.json
+    volumes:
+      - ./app:/app/
+      - ${GOOGLE_APPLICATION_CREDENTIALS}:/app/restaurant-chatbot-252908-2981cc9b5b05.json:ro
+    ports:
+      - 80:80
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    # command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--debug", "--port", "80", "--reload-dir", "/app"]
+    stdin_open: true
+    tty: true

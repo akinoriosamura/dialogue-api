@@ -1,0 +1,3 @@
+[submodule "app/ParlAI"]
+	path = app/ParlAI
+	url = https://github.com/facebookresearch/ParlAI.git
