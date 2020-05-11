@@ -1,17 +1,19 @@
 from fastapi import FastAPI
-from ml_api import schemas
-from ml_api.ml import MockMLAPI
+
+from src import schemas
+from src.nlp.dialogue_manager import DialogueManager
 
 
 app = FastAPI()
-ml = MockMLAPI()
-ml.load() # load weight or model instanse using joblib or pickle
+dm = DialogueManager()
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
-@app.post('/prediction/online', response_model=schemas.Pred)
-async def online_prediction(data: schemas.Data):
-    preds = ml.predict(data.data)
-    return {"prediction": preds}
+@app.post('/dialogue', response_model=schemas.Dialogue)
+async def online_prediction(data: schemas.Text):
+    print("data: ", data)
+    target_t = dm.get_reply(data.text)
+    print("output: ", target_t)
+    return {"dialogue": target_t}
